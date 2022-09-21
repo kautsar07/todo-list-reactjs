@@ -1,0 +1,33 @@
+*{
+  margin: 0;
+  padding: 0;
+}
+h1{
+  margin: 0;
+  padding: 0;
+}
+
+
+.App {
+  position: absolute;
+  width: 40vw;
+	top: 50%;
+	left: 50%;
+  background: rgb(230, 230, 230);
+	padding: 15px;
+	border-radius: 25px;
+	transform: translate(-50%) translateY(-50%);
+  text-align: center;
+}
+
+.Main{
+  width: 100%;
+  background: white;
+  height: 100%;
+  padding-bottom: 20px;
+}
+
+.Main h1{
+  font-size: 1.5rem;
+  padding-top: 15px;
+}
