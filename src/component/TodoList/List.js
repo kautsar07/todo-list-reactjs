@@ -75,17 +75,11 @@ export default function List() {
     const newValue = tasks.map((task) => {
       if (task.id === id) {
         if (task.complete === false) {
-          
-          return { ...task, complete: !task.complete }
-       
+          return { ...task, complete: !task.complete };
         }
-        
       }
-      return task
-    })
-    axios.put(`http://localhost:3000/Task/${id}`, {tasks}).then((res) => {
-          alert("Berhasil mengubah task")
-        })
+      return task;
+    });
     console.log(newValue);
     setTask(newValue);
   };
