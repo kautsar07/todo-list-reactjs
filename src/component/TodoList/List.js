@@ -1,10 +1,10 @@
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import "./List.css";
 import axios from "axios";
 import { MdDelete } from "react-icons/md";
 import { FaPencilAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { Input} from "antd";
+import { Input } from "antd";
 import "./Search.css";
 
 export default function List() {
@@ -75,11 +75,17 @@ export default function List() {
     const newValue = tasks.map((task) => {
       if (task.id === id) {
         if (task.complete === false) {
-          return { ...task, complete:!task.complete };
+          
+          return { ...task, complete: !task.complete }
+       
         }
+        
       }
-      return task;
-    });
+      return task
+    })
+    axios.put(`http://localhost:3000/Task/${id}`, {tasks}).then((res) => {
+          alert("Berhasil mengubah task")
+        })
     console.log(newValue);
     setTask(newValue);
   };
@@ -96,10 +102,10 @@ export default function List() {
           <Search
             enterButton
             placeholder="Search Todo"
-            onChange={(e) => setSearchTerm(e.target.value)}
+            // onChange={(e) => setSearchTerm(e.target.value)}
           />
 
-          <button>search</button>
+          <button onClick={(e) => setSearchTerm(e.target.value)}>search</button>
         </div>
         <div className="add">
           <Link to="/addtask">
@@ -135,37 +141,41 @@ export default function List() {
               }
             })
             .map((item, key) => (
-              <article>
-                {/* <Todolist style={{textDecoration:"line-through"}} name={item.task} /> */}
-                <div>
-                  <div
-                    style={
-                      item.complete ? { textDecoration: "line-through 1px red" } : null
-                    }
-                    className="name"
-                  >
-                    {item.task}
+              <form >
+                <article>
+                  {/* <Todolist style={{textDecoration:"line-through"}} name={item.task} /> */}
+                  <div>
+                    <div
+                      style={
+                        item.complete
+                          ? { textDecoration: "line-through 1px red" }
+                          : null
+                      }
+                      className="name"
+                    >
+                      {item.task}
+                    </div>
                   </div>
-                </div>
 
-                <div className="atribut">
-                  <input
-                    type="checkbox"
-                    checked={item.complete}
-                    className="check"
-                    onChange={() => handleCheck(Number(item.id))}
-                  />
+                  <div className="atribut">
+                    <input
+                      type="checkbox"
+                      checked={item.complete}
+                      className="check"
+                      onChange={() => handleCheck(Number(item.id))}
+                    />
 
-                  <Link to={`/Updtask/${item.id}`}>
-                    <FaPencilAlt className="edit" />
-                  </Link>
+                    <Link to={`/Updtask/${item.id}`}>
+                      <FaPencilAlt className="edit" />
+                    </Link>
 
-                  <MdDelete
-                    className="del"
-                    onClick={() => handleDelete(item.id)}
-                  />
-                </div>
-              </article>
+                    <MdDelete
+                      className="del"
+                      onClick={() => handleDelete(item.id)}
+                    />
+                  </div>
+                </article>
+              </form>
             ))}
         </div>
 
