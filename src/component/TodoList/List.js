@@ -23,19 +23,6 @@ export default function List() {
     loadTask();
   }, []);
 
-  // const handleEdit = (id) => {
-  //   const taskPilih = tasks
-  //     .filter((task) => task.id === id)
-  //     .map((filtertask) => {
-  //       return filtertask;
-  //     });
-  //   setEdit({
-  //     task: taskPilih[0].task,
-  //     id: taskPilih[0].id,
-  //   });
-  //   console.log(taskPilih);
-  // };
-
   const handleDelete = (id) => {
     let data = [...tasks];
     let filteredData = data.filter((item) => item.id !== id);
@@ -96,10 +83,10 @@ export default function List() {
           <Search
             enterButton
             placeholder="Search Todo"
-            // onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={(e) => setSearchTerm(e.target.value)}
           />
 
-          <button onClick={(e) => setSearchTerm(e.target.value)}>search</button>
+          <button>search</button>
         </div>
         <div className="add">
           <Link to="/addtask">
