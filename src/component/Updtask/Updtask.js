@@ -1,15 +1,16 @@
-import React, { useState, useEffect, withRputer } from "react";
+import React, { useState, useEffect} from "react";
 import "./Updtask.css";
 import { useNavigate, useParams } from "react-router-dom";
 import { Input } from "antd";
-import { uid } from "uid";
+
 import axios from "axios";
-import Todolist from "../TodoList/Todolist";
+
 
 
 export default function Updtask(props) {
-  const [tasks, setTasks] = useState([]);
-  const [isUpdate, setIsUpdate] = useState({ id: null, status: false });
+  const [edit, setEdit] = useState({
+    task: "",
+  });
 
   const { id } = useParams();
 
@@ -23,9 +24,7 @@ export default function Updtask(props) {
     }
   };
 
-  const [edit, setEdit] = useState({
-    task: "",
-  });
+  
 
   useEffect(() => {
     loadTask();

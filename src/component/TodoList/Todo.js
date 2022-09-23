@@ -1,14 +1,11 @@
 import React, { useState, useEffect } from "react";
 import "./List.css";
 import "./App.css";
-import Todolist from "./Todolist";
 import axios from "axios";
 import { MdDelete } from "react-icons/md";
 import { FaPencilAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
-
 import { Input } from "antd";
-
 import "./Search.css";
 
 export default function Todo() {

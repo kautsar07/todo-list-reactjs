@@ -6,6 +6,7 @@
   --color-success: #16A3B5;
   --color-submit: #00ba8a;
   --color-light: #a7a7a7;
+  --color-danger: #d32d2d;
 }
 
 h1{
@@ -46,8 +47,26 @@ h1{
   border: none;
   border-radius: 5px;
   color: white;
+  width: 100%;
 }
 
 .submit:hover{
   background: var(--color-submit);
+}
+
+.add-btn{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  gap: 50px;
+}
+
+.cancel{
+  height: 32px;
+  background: var(--color-danger);
+  border: none;
+  border-radius: 5px;
+  color: white;
+  width: 100%;
+  cursor: pointer;
 }

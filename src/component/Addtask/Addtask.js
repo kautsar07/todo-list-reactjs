@@ -1,23 +1,19 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom";
 import "./task.css";
 import { Input } from "antd";
-import { uid } from "uid";
 import axios from "axios";
-
 
 export default function Addtask() {
   const [tasks, setTask] = useState([]);
- 
   const [formData, setFormData] = useState({
-    task:""
+    task: "",
   });
+  const navigate = useNavigate();
 
   function handleChange(e) {
-
     setFormData(e.target.value);
   }
-  const navigate = useNavigate()
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -25,70 +21,29 @@ export default function Addtask() {
 
     if (formData === "") {
       return false;
-    }
-   else {
-   
-    let toSave = {
-      id: Math.random()*100,
-      task: formData,
-      complete: false
-    };
-    data.push(toSave);
+    } else {
+      let toSave = {
+        id: Math.random() * 100,
+        task: formData,
+        complete: false,
+      };
+      data.push(toSave);
 
-    // menambahkan data
-    axios.post("http://localhost:3000/Task", toSave).then(() => {
-      alert("Data berhasil ditambah");
-    });
-    
-
+      // menambahkan data
+      axios.post("http://localhost:3000/Task", toSave).then(() => {
+        alert("Data berhasil ditambah");
+      });
     }
-  
+
     setTask(data);
 
-    setFormData({ task: ""});
+    setFormData({ task: "" });
 
-    navigate("/")
+    navigate("/");
   }
-    
- 
-
-  // const [formData, setFormData] = useState({
-  //   task: ""
-  // });
-
-  // const handleSubmit = (e) => {
-  //   e.preventDefault()
-  //   alert('oke')
-
-  //   let data = [...task]
-
-  //   data.push({
-  //     id:uid(),
-  //     task: formData.name,
-  //     complete: false
-  //   })
-  //   setTask(data)
-
-  // }
-
-  // const handleChange = (e) => {
-  //   let data = { ...task };
-  //   data[e.target.name] = e.target.value;
-  // };
-
-  // const navigate = useNavigate()
-
-  // const addTask = (e) => {
-  //   e.preventDefault()
-  //   const newTask = {
-  //     id: uid(),
-  //     task: formData.name,
-  //     complete: false,
-  //   };
-  //   setTask((data) => [...data, newTask]);
-  //   navigate("/")
-  //   alert("oke")
-  // };
+  const back = () => {
+    navigate("/");
+  };
 
   return (
     <div className="task">
@@ -104,7 +59,12 @@ export default function Addtask() {
             placeholder="Input your task"
             required
           />
-          <button  className="submit">Submit</button>
+          <div className="add-btn">
+            <button className="submit">Submit</button>
+            <button className="cancel" onClick={back}>
+              Cancel
+            </button>
+          </div>
         </form>
       </div>
     </div>

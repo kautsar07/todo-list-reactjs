@@ -17,6 +17,7 @@ h1{
   position: absolute;
   width: 40vw;
   top: 50%;
+  height: 70vh;
   left: 50%;
   background: rgb(230, 230, 230);
   padding: 15px;
@@ -46,6 +47,7 @@ h1{
   border: none;
   border-radius: 5px;
   color: white;
+  cursor: pointer;
 }
 
 .submit:hover{

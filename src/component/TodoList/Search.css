@@ -28,7 +28,7 @@
     color: white;
 }
 .input button:hover{
-    background: var(--color-submit);
+    background: var(--color-success);
 }
 .add{
     display: flex;
@@ -45,6 +45,7 @@
     border: none;
     border-radius: 5px;
     color: white;
+    cursor: pointer;
 }
 .add button:hover{
     background: var(--color-submit);

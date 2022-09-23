@@ -35,6 +35,7 @@
     border: none;
     color: white;
     border-radius: 5px;
+    cursor: pointer;
 }
 
 .button{
@@ -83,6 +84,6 @@ article{
 }
 
 .del{
-
+    cursor: pointer;
     color: var(--color-danger);
 }

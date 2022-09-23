@@ -1,17 +1,14 @@
-import React, { useState, useEffect, useParams } from "react";
+import React, { useState, useEffect} from "react";
 import "./List.css";
-import Todolist from "./Todolist";
 import axios from "axios";
 import { MdDelete } from "react-icons/md";
 import { FaPencilAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { Input, Space } from "antd";
-import { uid } from "uid";
+import { Input} from "antd";
 import "./Search.css";
 
 export default function List() {
   const [tasks, setTask] = useState([]);
-  const [edit, setEdit] = useState();
 
   const loadTask = async () => {
     try {

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./List.css";
 import "./App.css";
-import Todolist from "./Todolist";
 import axios from "axios";
 import { MdDelete } from "react-icons/md";
 import { FaPencilAlt } from "react-icons/fa";
@@ -13,7 +12,6 @@ import { Input } from "antd";
 
 export default function Done() {
   const [tasks, setTask] = useState([]);
-  const [edit, setEdit] = useState();
 
   const loadTask = async () => {
     try {
@@ -99,12 +97,6 @@ export default function Done() {
   const { Search } = Input;
 
   const [searchTerm, setSearchTerm] = useState("");
-
-  const handleSearch = (e) => {
-    let data = { ...tasks };
-    data[e.target.name] = e.target.value;
-    setSearchTerm(data);
-  };
 
   return (
     <div className="App">

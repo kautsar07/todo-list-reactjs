@@ -1,18 +1,13 @@
-import logo from "./logo.svg";
 import "./App.css";
-import Search from "./component/TodoSearch/Search";
-import 'antd/dist/antd.css'
+import "antd/dist/antd.css";
 import List from "./component/TodoList/List";
-import axios from 'axios'
-import React, {useEffect} from "react";
-
-
+import React from "react";
 
 function App() {
   return (
     <div className="App">
       <div className="Main">
-        <List/>
+        <List />
       </div>
     </div>
   );
