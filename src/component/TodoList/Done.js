@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useParams } from "react";
+import React, { useState, useEffect } from "react";
 import "./List.css";
 import "./App.css";
 import Todolist from "./Todolist";
@@ -6,9 +6,10 @@ import axios from "axios";
 import { MdDelete } from "react-icons/md";
 import { FaPencilAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { uid } from "uid";
-import Search from "../TodoSearch/Search";
+
 import "./Search.css";
+
+import { Input } from "antd";
 
 export default function Done() {
   const [tasks, setTask] = useState([]);
@@ -27,18 +28,18 @@ export default function Done() {
     loadTask();
   }, []);
 
-  const handleEdit = (id) => {
-    const taskPilih = tasks
-      .filter((task) => task.id === id)
-      .map((filtertask) => {
-        return filtertask;
-      });
-    setEdit({
-      task: taskPilih[0].task,
-      id: taskPilih[0].id,
-    });
-    console.log(taskPilih);
-  };
+  // const handleEdit = (id) => {
+  //   const taskPilih = tasks
+  //     .filter((task) => task.id === id)
+  //     .map((filtertask) => {
+  //       return filtertask;
+  //     });
+  //   setEdit({
+  //     task: taskPilih[0].task,
+  //     id: taskPilih[0].id,
+  //   });
+  //   console.log(taskPilih);
+  // };
 
   const handleDelete = (id) => {
     let data = [...tasks];
@@ -50,31 +51,82 @@ export default function Done() {
     setTask(filteredData);
   };
 
-  const handleDone = () => {
-    const done = tasks
+  // const handleDone = () => {
+  //   const done = tasks
+  //     .filter((task) => task.complete === true)
+  //     .map((filtertask) => {
+  //       return filtertask;
+  //     });
+  // };
+  // const handleTodo = () => {
+  //   const todo = tasks
+  //     .filter((task) => task.complete === false)
+  //     .map((filtertask) => {
+  //       return filtertask;
+  //     });
+  // };
+  // const handleAll = () => {
+  //   const all = tasks.map((task) => task.task);
+  //   console.log(all);
+  // };
+  const handleDelAll = () => {
+    let data = [...tasks];
+    let filteredData = data
       .filter((task) => task.complete === true)
       .map((filtertask) => {
-        return filtertask;
+        return axios
+          .delete(`http://localhost:3000/Task/${filtertask.id}`)
+          .then(() => {
+            alert("Data berhasil dihapus");
+          });
       });
+    setTask(filteredData);
   };
-  const handleTodo = () => {
-    const todo = tasks
-      .filter((task) => task.complete === false)
-      .map((filtertask) => {
-        return filtertask;
-      });
+
+  const handleCheck = (id) => {
+    const newValue = tasks.map((task) => {
+      if (task.id === Number(id)) {
+        if (task.complete === false) {
+          return { ...task, complete: !task.complete };
+        }
+      }
+      return task;
+    });
+    console.log(newValue);
+    setTask(newValue);
   };
-  const handleAll = () => {
-    const all = tasks.map((task) => task.task);
-    console.log(all);
+
+  const { Search } = Input;
+
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const handleSearch = (e) => {
+    let data = { ...tasks };
+    data[e.target.name] = e.target.value;
+    setSearchTerm(data);
   };
 
   return (
     <div className="App">
       <div className="Main">
-        <h1>TodoSearch</h1>
-        <Search />
-        <h1>TodoList</h1>
+        <h1>Todo Search</h1>
+        <div className="Main-search">
+          <div className="input">
+            <Search
+              enterButton
+              placeholder="Search Todo"
+              onChange={(event) => setSearchTerm(event.target.value)}
+            />
+
+            <button>search</button>
+          </div>
+          <div className="add">
+            <Link to="/addtask">
+              <button>Add new task</button>
+            </Link>
+          </div>
+        </div>
+        <h1>Todo List</h1>
 
         <div className="container">
           <div className="btn">
@@ -94,15 +146,43 @@ export default function Done() {
           <div>
             {tasks
               .filter((item) => item.complete === true)
+              .filter((item) => {
+                if (searchTerm === item.task) {
+                  return item;
+                } else if (
+                  item.task.toLowerCase().includes(searchTerm.toLowerCase())
+                ) {
+                  return item;
+                }
+              })
               .map((filteritem) => {
                 return (
                   <article>
-                    <Todolist name={filteritem.task} />
+                    <div>
+                      <div
+                        style={
+                          filteritem.complete
+                            ? { textDecoration: "line-through 1px red" }
+                            : null
+                        }
+                        className="name"
+                      >
+                        {filteritem.task}
+                      </div>
+                    </div>
+                    {/* <Todolist name={filteritem.task} value={filteritem.task}/> */}
 
                     <div className="atribut">
-                      <input type="checkbox" className="check" />
+                      <input
+                        type="checkbox"
+                        checked={filteritem.complete}
+                        className="check"
+                        onChange={() => handleCheck(filteritem.id)}
+                      />
 
-                      <FaPencilAlt className="edit" />
+                      <Link to={`/Updtask/${filteritem.id}`}>
+                        <FaPencilAlt className="edit" />
+                      </Link>
 
                       <MdDelete
                         className="del"
@@ -115,26 +195,12 @@ export default function Done() {
           </div>
 
           <div className="delete">
-            <button className="btn-delete">Delete all task</button>
+            <button className="btn-delete" onClick={handleDelAll}>
+              Delete all task
+            </button>
           </div>
         </div>
       </div>
     </div>
   );
 }
-
-//   <article>
-//     <div className="name">{filteritem.task}</div>
-//     <div className="atribut">
-//       <input type="checkbox" className="check" />
-
-//       <Link to="/Updtask">
-//         <FaPencilAlt
-//           onClick={() => handleEdit()}
-//           className="edit"
-//         />
-//       </Link>
-//       <MdDelete className="del" />
-//     </div>
-//   </article>
-// );

@@ -12,9 +12,6 @@ function App() {
   return (
     <div className="App">
       <div className="Main">
-        <h1>TodoSearch</h1>
-        <Search />
-        <h1>TodoList</h1>
         <List/>
       </div>
     </div>

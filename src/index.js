@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import {BrowserRouter, Routes, Route, useParams} from 'react-router-dom'
+import {BrowserRouter, Routes, Route, } from 'react-router-dom'
 import Addtask from './component/Addtask/Addtask';
 import Updtask from './component/Updtask/Updtask';
 import Done from './component/TodoList/Done';
@@ -18,7 +18,7 @@ root.render(
   <Routes>
     <Route path = "/" element={<App />} />
     <Route path = "addtask" element={<Addtask />} />
-    <Route path = "/Updtask" element={<Updtask />} />
+    <Route path = "/Updtask/:id" element={<Updtask />} />
     <Route path = "/Done" element={<Done />} />
     <Route path = "/Todo" element={<Todo />} />
     
