@@ -90,17 +90,17 @@ export default function List() {
       <h1>Todo List</h1>
       <div className="container">
         <div className="btn">
-          <div className="button" onClick={()=>setTask(data)}>
+          <button className="button" onClick={()=>setTask(data)}>
             All
-          </div>
+          </button>
 
-          <div className="button" onClick={()=>setTask(data.filter((item)=>item.completed===true? {...item}:null))}>
+          <button className="button" onClick={()=>setTask(data.filter((item)=>item.completed===true? {...item}:null))}>
             Done
-          </div>
+          </button>
 
-          <div className="button" onClick={()=>setTask(data.filter((item)=>item.completed===false? {...item}:null))}>
+          <button className="button" onClick={()=>setTask(data.filter((item)=>item.completed===false? {...item}:null))}>
             Todo
-          </div>
+          </button>
         </div>
 
         
