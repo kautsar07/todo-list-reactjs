@@ -5,33 +5,23 @@ import { MdDelete } from "react-icons/md";
 import { FaPencilAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { Input } from "antd";
+import data from "../Dummy/index";
 import "./Search.css";
 
 export default function List() {
-  const [tasks, setTask] = useState([]);
-
-  const loadTask = async () => {
-    try {
-      const res = await axios.get("http://localhost:3000/Task");
-      setTask(res.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  useEffect(() => {
-    loadTask();
-  }, []);
+  const [tasks, setTask] = useState(data);
+  const [filter, setFilter] = useState(data.length)
+  const [done, setDone] = useState(false)
+  const [todo, setTodo] = useState(false)
 
   const handleDelete = (id) => {
-    let data = [...tasks];
-    let filteredData = data.filter((item) => item.id !== id);
-
-    axios.delete("http://localhost:3000/Task/" + id).then(() => {
-      alert("Data berhasil dihapus");
-    });
-    setTask(filteredData);
+    console.log(id);
+    setTask( tasks.filter((item)=> item.id !== id))
+      // setTask({...item})
+   
+    // console.log(del);
   };
+  console.log(tasks);
 
   const handleDelDone = () => {
     let data = [...tasks];
@@ -58,17 +48,20 @@ export default function List() {
     setTask(filteredData);
   };
 
-  const handleCheck = (id) => {
-    const newValue = tasks.map((task) => {
-      if (task.id === id) {
-        if (task.complete === false) {
-          return { ...task, complete: !task.complete };
+  const handleCheck = (e) => {
+    setTask(
+      data.map((item) => {
+        if (item.id === e && item.completed === false) {
+          item.completed = true;
+          return item;
         }
-      }
-      return task;
-    });
-    console.log(newValue);
-    setTask(newValue);
+        if (item.id === e && item.completed === true) {
+          item.completed = false;
+          return item;
+        }
+        return { ...item };
+      })
+    );
   };
 
   const { Search } = Input;
@@ -97,19 +90,20 @@ export default function List() {
       <h1>Todo List</h1>
       <div className="container">
         <div className="btn">
-          <Link className="button" to="/">
+          <div className="button" onClick={()=>setTask(data)}>
             All
-          </Link>
+          </div>
 
-          <Link className="button" to="/Done">
+          <div className="button" onClick={()=>setTask(data.filter((item)=>item.completed===true? {...item}:null))}>
             Done
-          </Link>
+          </div>
 
-          <Link className="button" to="/Todo">
+          <div className="button" onClick={()=>setTask(data.filter((item)=>item.completed===false? {...item}:null))}>
             Todo
-          </Link>
+          </div>
         </div>
 
+        
         <div>
           {tasks
             .filter((item) => {
@@ -122,49 +116,33 @@ export default function List() {
               }
             })
             .map((item, key) => (
-              <form >
-                <article>
-                  {/* <Todolist style={{textDecoration:"line-through"}} name={item.task} /> */}
-                  <div>
-                    <div
-                      style={
-                        item.complete
-                          ? { textDecoration: "line-through 1px red" }
-                          : null
-                      }
-                      className="name"
-                    >
-                      {item.task}
-                    </div>
-                  </div>
+              <article>
+                <p
+                  key={key}
+                 
+                  className={`${item.completed ? "name2" : "name1"}`}
+                >
+                  {item.task}
+                </p>
 
-                  <div className="atribut">
-                    <input
-                      type="checkbox"
-                      checked={item.complete}
-                      className="check"
-                      onChange={() => handleCheck(Number(item.id))}
-                    />
+                <div className="atribut">
+                  <input  onClick={() => handleCheck(item.id)} type="checkbox" checked={item.completed}>
+                  </input>
+                  <Link to={`/Updtask/${item.id}`}>
+                    <FaPencilAlt className="edit" />
+                  </Link>
 
-                    <Link to={`/Updtask/${item.id}`}>
-                      <FaPencilAlt className="edit" />
-                    </Link>
-
-                    <MdDelete
-                      className="del"
-                      onClick={() => handleDelete(item.id)}
-                    />
-                  </div>
-                </article>
-              </form>
+                  <MdDelete className="del" onClick={() => handleDelete(item.id)} />
+                </div>
+              </article>
             ))}
         </div>
 
         <div className="delete">
-          <button className="btn-delete" onClick={handleDelDone}>
+          <button className="btn-delete" onClick={()=>setTask(data.filter((item)=> item.completed===false))}>
             Delete done task
           </button>
-          <button className="btn-delete" onClick={handleDelAll}>
+          <button className="btn-delete" onClick={()=>setTask(data.filter((item)=> item.completed===false && item.completed===true))}>
             Delete all task
           </button>
         </div>

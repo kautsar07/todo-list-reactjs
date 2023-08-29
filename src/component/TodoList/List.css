@@ -2,6 +2,10 @@
     margin: 0;
     padding: 0;
 }
+p{
+    margin: 0;
+    padding: 0;
+}
 
 :root{
     --color-success: #16A3B5;
@@ -58,16 +62,24 @@
 }
 
 article{
-    display: grid;
-    grid-template-columns: 60% 40%;
+    display: flex;
     margin-bottom: 10px;
     border: 1px solid var(--color-light);
+    justify-content: space-between;
 }
 
-.name{
+.name1{
     display: flex;
     justify-content: flex-start;
     padding: 8px 8px 8px 18px;
+    color: black;
+}
+.name2{
+    display: flex;
+    justify-content: flex-start;
+    padding: 8px 8px 8px 18px;
+    text-decoration: line-through;
+    text-decoration-color: #d32d2d;
 }
 
 .atribut{

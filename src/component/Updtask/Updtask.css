@@ -49,7 +49,20 @@ h1{
   color: white;
   cursor: pointer;
 }
+.cancel{
+  height: 32px;
+  background: red;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+}
 
 .submit:hover{
   background: var(--color-submit);
+}
+
+.btn-update{
+  display: flex;
+  gap: 20px;
 }

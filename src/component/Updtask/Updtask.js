@@ -1,71 +1,62 @@
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import "./Updtask.css";
 import { useNavigate, useParams } from "react-router-dom";
 import { Input } from "antd";
+import datas from "../Dummy/index";
 
-import axios from "axios";
-
-
-
-export default function Updtask(props) {
-  const [edit, setEdit] = useState({
-    task: "",
-  });
-
+export default function Updtask() {
+  const [task, setTask] = useState(datas);
+  const [update, setUpdate] = useState();
+  const navigate = useNavigate();
   const { id } = useParams();
 
-
-  const loadTask = async () => {
-    try {
-      const res = await axios.get(`http://localhost:3000/Task/${id}`);
-      setEdit(res.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  
-
-  useEffect(() => {
-    loadTask();
-  }, []);
-
-  const navigate = useNavigate();
-
   const handleChange = (e) => {
-
-    setEdit ( {...edit, [e.target.name]: e.target.value} )
+    setUpdate(e);
   };
-
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    axios.put(`http://localhost:3000/Task/${id}`, edit).then((res) => {
-      alert("Berhasil mengubah task");
+    const newValue = task.map((item) => {
+      if (item.id === id) {
+        item.task = update;
+        return item
+      }
+      // return item;
+      return { ...item };
     });
 
-    navigate("/");
-    setEdit({ task: ""});
+    navigate('/')
   };
-
 
   return (
     <div className="task">
       <div className="Add">
         <h1>TodoInput </h1>
-        <form onSubmit={handleSubmit} className="form">
-          <Input
-            type="text"
-            name="task"
-            value={edit.task}
-            onChange={(e) => handleChange(e)}
-            className="input"
-          />
-          <button type="submit" className="submit">
-            Edit Task
-          </button>
-        </form>
+        {task
+          ?.filter((item) => item.id === id)
+          .map((item) => (
+            <form onSubmit={handleSubmit} className="form">
+              <Input
+                type="text"
+                name="task"
+                // value={item.task}
+                onChange={(e) => handleChange(e.target.value)}
+                className="input"
+              />
+              <div className="btn-update">
+                <button onClick={handleSubmit} type="submit" className="submit">
+                  Edit Task
+                </button>
+                <button
+                  onClick={() => navigate("/")}
+                  type="submit"
+                  className="cancel"
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          ))}
       </div>
     </div>
   );

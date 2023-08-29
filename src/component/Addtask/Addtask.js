@@ -2,44 +2,52 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./task.css";
 import { Input } from "antd";
-import axios from "axios";
+import { v4 as uuidv4 } from "uuid";
+import datas from '../Dummy/index'
 
 export default function Addtask() {
   const [tasks, setTask] = useState([]);
-  const [formData, setFormData] = useState({
-    task: "",
-  });
+  const [formData, setFormData] = useState("");
   const navigate = useNavigate();
 
   function handleChange(e) {
-    setFormData(e.target.value);
+    setTask(e);
   }
 
   function handleSubmit(e) {
     e.preventDefault();
-    let data = [...tasks];
+    const data = { id: uuidv4(), task: tasks, completed: false };
+    // console.log(data);
+    datas.unshift(data)
+    // console.log(datas);
+    navigate('/')
 
-    if (formData === "") {
-      return false;
-    } else {
-      let toSave = {
-        id: Math.random() * 100,
-        task: formData,
-        complete: false,
-      };
-      data.push(toSave);
 
-      // menambahkan data
-      axios.post("http://localhost:3000/Task", toSave).then(() => {
-        alert("Data berhasil ditambah");
-      });
-    }
+  
 
-    setTask(data);
+    // let data = [...tasks];
 
-    setFormData({ task: "" });
+    // if (formData === "") {
+    //   return false;
+    // } else {
+    //   let toSave = {
+    //     id: Math.random() * 100,
+    //     task: formData,
+    //     complete: false,
+    //   };
+    //   data.push(toSave);
 
-    navigate("/");
+    //   // menambahkan data
+    //   axios.post("http://localhost:3000/Task", toSave).then(() => {
+    //     alert("Data berhasil ditambah");
+    //   });
+    // }
+
+    // setTask(data);
+
+    // setFormData({ task: "" });
+
+    // navigate("/");
   }
   const back = () => {
     navigate("/");
@@ -52,8 +60,7 @@ export default function Addtask() {
         <form onSubmit={handleSubmit} className="form">
           <Input
             type="text"
-            value={formData.task}
-            onChange={handleChange}
+            onChange={(e) => handleChange(e.target.value)}
             className="input"
             name="name"
             placeholder="Input your task"
